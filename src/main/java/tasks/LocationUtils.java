@@ -6,7 +6,7 @@ import main.Constants;
 public final class LocationUtils {
 
     private static final double X_PAD = 25.0;
-    private static final double Y_PAD = 75.0;
+    private static final double Y_PAD = 125.0;
 
     public static Point2D genRandomLocation(double pWidth) {
         // Generate a random location that is padded along the edges that doesn't overlap

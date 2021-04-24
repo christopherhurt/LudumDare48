@@ -3,10 +3,8 @@ package main;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.time.TimerAction;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -23,9 +21,9 @@ import tasks.ReplaceBitTask;
 
 public final class TaskManagerComponent extends Component {
 
-    private static final double INITIAL_DELAY = 0.0;//5.0; // TODO
-    private static final double MIN_SPAWN_DELAY = 2.0;
-    private static final double MAX_SPAWN_DELAY = 4.0;
+    private static final double INITIAL_DELAY = 5.0;
+    private static final double MIN_SPAWN_DELAY = 3.0;
+    private static final double MAX_SPAWN_DELAY = 5.0;
     private static final int MAX_CONCURRENT_TASKS = 3;
 
     private final EDifficulty mDifficulty;
@@ -74,16 +72,16 @@ public final class TaskManagerComponent extends Component {
         switch (pName) {
             case BIT:
                 return new ReplaceBitTask(mDifficulty, mTaskRemovalTask);
-//            case REFUEL:
-//                return new RefuelTask(mDifficulty, mTaskRemovalTask);
-//            case COOLANT:
-//                return new CoolantTask(mDifficulty, mTaskRemovalTask);
+            case REFUEL:
+                return new RefuelTask(mDifficulty, mTaskRemovalTask);
+            case COOLANT:
+                return new CoolantTask(mDifficulty, mTaskRemovalTask);
             case COMMAND:
                 return new CommandTask(mDifficulty, mTaskRemovalTask);
             case BLOCKAGE:
                 return new BlockageTask(mDifficulty, mTaskRemovalTask);
-//            case FLAMES:
-//                return new FlamesTask(mDifficulty, mTaskRemovalTask);
+            case FLAMES:
+                return new FlamesTask(mDifficulty, mTaskRemovalTask);
             default:
                 return new ATask(mDifficulty, mTaskRemovalTask) {
                     @Override
@@ -113,11 +111,11 @@ public final class TaskManagerComponent extends Component {
     private enum TaskName {
         // Ordered by difficulty (easy to hard)
         BIT,
-//        REFUEL,
-//        COOLANT,
+        REFUEL,
+        COOLANT,
         COMMAND,
         BLOCKAGE,
-//        FLAMES;
+        FLAMES
     }
 
 }

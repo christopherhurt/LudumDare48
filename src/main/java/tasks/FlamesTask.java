@@ -1,15 +1,35 @@
 package tasks;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.texture.AnimatedTexture;
+import com.almasb.fxgl.texture.AnimationChannel;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import main.ATask;
+import main.Constants;
 import main.EDifficulty;
 
 public class FlamesTask extends ATask {
+
+    private static final double Y_PAD = 50.0;
+    private static final double SIZE = 20.0;
+    private static final int COUNT = 5;
+    private static final double ANIM_TIME = 0.3;
+
+    private int mCount = COUNT;
+    private Entity mEntity;
 
     public FlamesTask(EDifficulty pDifficulty, Consumer<ATask> pRemovalTask) {
         super(pDifficulty, pRemovalTask);
@@ -17,19 +37,66 @@ public class FlamesTask extends ATask {
 
     @Override
     protected Collection<Node> generateViews() {
-        // TODO
-        return Collections.singleton(new Text("Flames!!"));
+        return IntStream.range(0, COUNT).mapToObj(pI -> generateView()).collect(Collectors.toList());
+    }
+
+    // Get a single flame
+    private Node generateView() {
+        Text text = new Text("Click to\nextinguish!");
+        text.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setPickOnBounds(false);
+        text.setMouseTransparent(true);
+
+        VBox box = new VBox(5.0);
+
+        AnimationChannel animChannel = new AnimationChannel(FXGL.image("flames.png"), 4, 16, 16, // TODO: change these with tex size increase
+                Duration.seconds(ANIM_TIME), 0, 3);
+        AnimatedTexture texture = new AnimatedTexture(animChannel).loop();
+        texture.setFitWidth(SIZE);
+        texture.setFitHeight(SIZE);
+        texture.setSmooth(false);
+        texture.setPickOnBounds(true);
+        texture.setOnMousePressed(pEvt -> {
+            // TODO: sizzle sound effect
+            FXGL.removeUINode(box);
+            mCount--;
+            if (mCount <= 0) {
+                onCompleted();
+            }
+            pEvt.consume();
+        });
+
+        // Wrap in entity so animation plays
+        mEntity = FXGL.entityBuilder().view(texture).buildAndAttach();
+
+        box.getChildren().addAll(text, texture);
+        box.setAlignment(Pos.CENTER);
+        box.setPickOnBounds(false);
+        return box;
     }
 
     @Override
     protected Point2D generateViewLocation() {
-        // TODO
-        return new Point2D(Math.random() * 600, Math.random() * 600);
+        // Generate a location somewhere on the drill
+        double minX = 300.0 - Constants.DRILL_WIDTH / 2.0;
+        double maxX = 300.0 + Constants.DRILL_WIDTH / 2.0 - SIZE;
+        double maxY = Constants.DRILL_HEIGHT - Y_PAD;
+        return new Point2D(FXGL.random(minX, maxX), FXGL.random(Y_PAD, maxY));
     }
 
     @Override
     protected double getBaseTimeout() {
+        // TODO: adjust
         return 5.0;
+    }
+
+    @Override
+    public void destroyAndRemove() {
+        super.destroyAndRemove();
+        if (mEntity != null) {
+            mEntity.removeFromWorld();
+        }
     }
 
 }

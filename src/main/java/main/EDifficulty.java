@@ -3,20 +3,18 @@ package main;
 public enum EDifficulty {
 
     // TODO: adjust these vals
-    EASY(1.0, 1.0, 3, 3),
-    MEDIUM(1.0, 1.0, 3, 3),
-    HARD(1.0, 1.0, 3, 3);
+    EASY(1.0, 1.0, 6),
+    MEDIUM(1.0, 1.0, 6),
+    HARD(1.0, 1.0, 6);
 
     private final double mTaskRateMultiplier;
     private final double mTaskTimeoutMultiplier;
     private final int mInitialTasks;
-    private final int mLives;
 
-    EDifficulty(double pTaskRateMultiplier, double pTaskTimeoutMultiplier, int pInitialTasks, int pLives) {
+    EDifficulty(double pTaskRateMultiplier, double pTaskTimeoutMultiplier, int pInitialTasks) {
         mTaskRateMultiplier = pTaskRateMultiplier;
         mTaskTimeoutMultiplier = pTaskTimeoutMultiplier;
         mInitialTasks = pInitialTasks;
-        mLives = pLives;
     }
 
     public double getTaskRateMultiplier() {
@@ -29,10 +27,6 @@ public enum EDifficulty {
 
     public int getInitialTasks() {
         return mInitialTasks;
-    }
-
-    public int getLives() {
-        return mLives;
     }
 
 }

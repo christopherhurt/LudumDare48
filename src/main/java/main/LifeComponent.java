@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.scene.text.Text;
 
 // TODO: update view "redness", camera shake, game over procedure
+// TODO: life loss sound when losing a life?
 public class LifeComponent extends Component {
 
     private final ReadOnlyIntegerProperty mCounter = FXGL.getWorldProperties().intProperty(Names.LIFE_COUNT);
