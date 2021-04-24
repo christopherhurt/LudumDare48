@@ -10,7 +10,7 @@ public class GameApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> pVars) {
         // TODO: do on level start
-        pVars.put(Names.LIFE_COUNT, 5);
+        pVars.put(Names.LIFE_COUNT, Constants.MAX_LIVES);
         pVars.put(Names.LEVEL_INDEX, 0);
         pVars.put(Names.BACKGROUND_MOVING, true);
     }
