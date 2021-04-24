@@ -1,0 +1,14 @@
+.command-box {
+    -fx-background-color: rgb(48, 48, 48);
+    -fx-text-fill: rgb(64, 256, 64);
+    -fx-prompt-text-fill: rgb(192, 192, 192);
+    -fx-font-family: "Courier New";
+    -fx-font-weight: bold;
+}
+
+.replace-bit-btn {
+    -fx-font-weight: bold;
+    -fx-font-family: "SansSerif";
+    -fx-background-color: linear-gradient(to top right, rgb(64, 64, 64) 0%, rgb(85, 85, 85) 100%);
+    -fx-font-size: 13;
+}

@@ -10,9 +10,6 @@ import javafx.util.Duration;
 
 public abstract class ATask {
 
-    private static final double MIN_BASE_TIMEOUT = 3.0;
-    private static final double MAX_BASE_TIMEOUT = 6.0;
-
     private final Consumer<ATask> mRemovalTask;
     private final Collection<Node> mViews;
     private final TimerAction mTimeoutAction;
@@ -28,13 +25,12 @@ public abstract class ATask {
         });
 
         // Timeout timer
-        double timeout = pDifficulty.getTaskTimeoutMultiplier()
-                * (Math.random() * (MAX_BASE_TIMEOUT - MIN_BASE_TIMEOUT) + MIN_BASE_TIMEOUT);
-        mTimeoutAction = FXGL.runOnce(this::onTimeout, Duration.seconds(timeout));
+        mTimeoutAction = FXGL.runOnce(this::onTimeout, Duration.seconds(getBaseTimeout() * pDifficulty.getTaskTimeoutMultiplier()));
     }
 
     protected abstract Collection<Node> generateViews();
     protected abstract Point2D generateViewLocation();
+    protected abstract double getBaseTimeout();
 
     protected void onCompleted() {
         mTimeoutAction.expire();
@@ -51,6 +47,10 @@ public abstract class ATask {
     public void destroyAndRemove() {
         mTimeoutAction.expire();
         mViews.forEach(FXGL::removeUINode);
+    }
+
+    protected boolean isExpired() {
+        return mTimeoutAction.isExpired();
     }
 
 }

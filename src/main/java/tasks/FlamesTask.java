@@ -27,4 +27,9 @@ public class FlamesTask extends ATask {
         return new Point2D(Math.random() * 600, Math.random() * 600);
     }
 
+    @Override
+    protected double getBaseTimeout() {
+        return 5.0;
+    }
+
 }

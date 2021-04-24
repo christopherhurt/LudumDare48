@@ -22,6 +22,7 @@ public class GameApp extends GameApplication {
         pSettings.setHeight(600);
         pSettings.setTitle("Dig Inc.");
         pSettings.setVersion("");
+        pSettings.getCSSList().add("styles.css");
     }
 
     @Override

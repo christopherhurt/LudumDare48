@@ -6,6 +6,9 @@ import com.almasb.fxgl.time.TimerAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -20,15 +23,15 @@ import tasks.ReplaceBitTask;
 
 public final class TaskManagerComponent extends Component {
 
-    private static final double INITIAL_DELAY = 5.0;
+    private static final double INITIAL_DELAY = 0.0;//5.0; // TODO
     private static final double MIN_SPAWN_DELAY = 2.0;
     private static final double MAX_SPAWN_DELAY = 4.0;
     private static final int MAX_CONCURRENT_TASKS = 3;
 
     private final EDifficulty mDifficulty;
-    private final Collection<ATask> mCurrentTasks = new ArrayList<>();
+    private final Map<TaskName, ATask> mCurrentTasks = new ConcurrentHashMap<>();
     private final Consumer<ATask> mTaskRemovalTask = pTask -> {
-        mCurrentTasks.remove(pTask);
+        mCurrentTasks.values().remove(pTask);
         pTask.destroyAndRemove();
     };
 
@@ -49,8 +52,14 @@ public final class TaskManagerComponent extends Component {
         if (mSpawnable && mCurrentTasks.size() < MAX_CONCURRENT_TASKS) {
             int taskIndex = (int)(Math.random() * Math.min(mDifficulty.getInitialTasks()
                     + FXGL.getWorldProperties().getInt(Names.LEVEL_INDEX), TaskName.values().length));
-            mCurrentTasks.add(createTask(TaskName.values()[taskIndex]));
-            startSpawnTimer();
+            TaskName taskName = TaskName.values()[taskIndex];
+
+            // Don't add more than one of the same task at once
+            // If this task is already in play, skip a frame
+            if (!mCurrentTasks.containsKey(taskName)) {
+                mCurrentTasks.put(taskName, createTask(taskName));
+                startSpawnTimer();
+            }
         }
     }
 
@@ -65,16 +74,16 @@ public final class TaskManagerComponent extends Component {
         switch (pName) {
             case BIT:
                 return new ReplaceBitTask(mDifficulty, mTaskRemovalTask);
-            case REFUEL:
-                return new RefuelTask(mDifficulty, mTaskRemovalTask);
-            case COOLANT:
-                return new CoolantTask(mDifficulty, mTaskRemovalTask);
+//            case REFUEL:
+//                return new RefuelTask(mDifficulty, mTaskRemovalTask);
+//            case COOLANT:
+//                return new CoolantTask(mDifficulty, mTaskRemovalTask);
             case COMMAND:
                 return new CommandTask(mDifficulty, mTaskRemovalTask);
             case BLOCKAGE:
                 return new BlockageTask(mDifficulty, mTaskRemovalTask);
-            case FLAMES:
-                return new FlamesTask(mDifficulty, mTaskRemovalTask);
+//            case FLAMES:
+//                return new FlamesTask(mDifficulty, mTaskRemovalTask);
             default:
                 return new ATask(mDifficulty, mTaskRemovalTask) {
                     @Override
@@ -85,13 +94,17 @@ public final class TaskManagerComponent extends Component {
                     protected Point2D generateViewLocation() {
                         return new Point2D(100, 100);
                     }
+                    @Override
+                    protected double getBaseTimeout() {
+                        return 3.0;
+                    }
                 };
         }
     }
 
     @Override
     public void onRemoved() {
-        mCurrentTasks.forEach(ATask::destroyAndRemove);
+        mCurrentTasks.forEach((pKey, pVal) -> pVal.destroyAndRemove());
         if (mSpawnAction != null) {
             mSpawnAction.expire();
         }
@@ -100,11 +113,11 @@ public final class TaskManagerComponent extends Component {
     private enum TaskName {
         // Ordered by difficulty (easy to hard)
         BIT,
-        REFUEL,
-        COOLANT,
+//        REFUEL,
+//        COOLANT,
         COMMAND,
         BLOCKAGE,
-        FLAMES;
+//        FLAMES;
     }
 
 }
