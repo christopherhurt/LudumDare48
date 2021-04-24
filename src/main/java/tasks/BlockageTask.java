@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.ATask;
 import main.EDifficulty;
+import main.Names;
 
 public class BlockageTask extends ATask {
 
@@ -48,7 +49,7 @@ public class BlockageTask extends ATask {
         };
         FXGL.getInput().addEventHandler(KeyEvent.KEY_PRESSED, mHandler);
 
-        // TODO: pause drill rotation, background movement...
+        FXGL.getWorldProperties().setValue(Names.BACKGROUND_MOVING, false);
         // TODO: play sound on loop
     }
 
@@ -95,7 +96,7 @@ public class BlockageTask extends ATask {
     private void resumeDrillRotation() {
         if (!mResumed) {
             mResumed = true;
-            // TODO: resume drill rotation, background movement
+            FXGL.getWorldProperties().setValue(Names.BACKGROUND_MOVING, true);
         }
     }
 

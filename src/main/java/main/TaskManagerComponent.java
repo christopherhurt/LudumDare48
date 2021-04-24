@@ -36,7 +36,7 @@ public final class TaskManagerComponent extends Component {
     private TimerAction mSpawnAction = null;
     private boolean mSpawnable = false;
 
-    public TaskManagerComponent(EDifficulty pDifficulty) {
+    public TaskManagerComponent(EDifficulty pDifficulty) { // TODO: change spawns with level index!!
         mDifficulty = pDifficulty;
     }
 
@@ -113,8 +113,8 @@ public final class TaskManagerComponent extends Component {
         BIT,
         REFUEL,
         COOLANT,
-        COMMAND,
         BLOCKAGE,
+        COMMAND,
         FLAMES
     }
 

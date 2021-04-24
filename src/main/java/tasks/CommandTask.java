@@ -39,7 +39,7 @@ public class CommandTask extends ATask {
     protected Collection<Node> generateViews() {
         mCommand = COMMANDS[(int)(Math.random() * COMMANDS.length)];
 
-        Text text1 = new Text("Issue command");
+        Text text1 = new Text("Execute command");
         text1.setFont(INSTRUCTION_FONT);
         Text text2 = new Text("\"" + mCommand + "\"");
         text2.setFont(INSTRUCTION_FONT);

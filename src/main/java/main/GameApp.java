@@ -10,10 +10,9 @@ public class GameApp extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> pVars) {
         // TODO: do on level start
-        // Initialized on level start based on difficulty
         pVars.put(Names.LIFE_COUNT, 5);
-        // Initialized on level start
         pVars.put(Names.LEVEL_INDEX, 0);
+        pVars.put(Names.BACKGROUND_MOVING, true);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class GameApp extends GameApplication {
         // TODO: do on level start
         // Task spawner, life manager
         FXGL.entityBuilder().with(new TaskManagerComponent(EDifficulty.HARD),
-                new LifeComponent(), new BackgroundComponent()).buildAndAttach();
+                new LifeComponent(), new BackgroundComponent(0)).buildAndAttach();
     }
 
     public static void main(String[] pArgs) {

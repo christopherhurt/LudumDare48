@@ -23,7 +23,7 @@ import main.EDifficulty;
 
 public class FlamesTask extends ATask {
 
-    private static final double Y_PAD = 50.0;
+    private static final double Y_PAD = 100.0;
     private static final double SIZE = 20.0;
     private static final int COUNT = 5;
     private static final double ANIM_TIME = 0.3;
@@ -73,16 +73,22 @@ public class FlamesTask extends ATask {
         box.getChildren().addAll(text, texture);
         box.setAlignment(Pos.CENTER);
         box.setPickOnBounds(false);
+
+        // Fix width for accurate location generation
+        box.setMinWidth(SIZE * 2.0);
+        box.setMaxWidth(SIZE * 2.0);
+        box.setPrefWidth(SIZE * 2.0);
+
         return box;
     }
 
     @Override
     protected Point2D generateViewLocation() {
         // Generate a location somewhere on the drill
-        double minX = 300.0 - Constants.DRILL_WIDTH / 2.0;
-        double maxX = 300.0 + Constants.DRILL_WIDTH / 2.0 - SIZE;
+        double minX = 300.0 - Constants.DRILL_WIDTH / 2.0 - SIZE * 0.5; // Account for VBox width
+        double maxX = 300.0 + Constants.DRILL_WIDTH / 2.0 - SIZE * 1.5; // Account for VBox width
         double maxY = Constants.DRILL_HEIGHT - Y_PAD;
-        return new Point2D(FXGL.random(minX, maxX), FXGL.random(Y_PAD, maxY));
+        return new Point2D(FXGL.random(minX, maxX), FXGL.random(Y_PAD / 2.0, maxY));
     }
 
     @Override
