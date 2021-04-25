@@ -20,7 +20,7 @@ import main.EDifficulty;
 
 public class RefuelTask extends ATask {
 
-    private static final double BUTTON_WIDTH = 40;
+    private static final double BUCKET_WIDTH = 40;
     private static final int NUM_FILLS = 10;
 
     private int mFilled = 0;
@@ -36,8 +36,8 @@ public class RefuelTask extends ATask {
         List<Texture> bucketTextures = IntStream.range(0, bucketSprites).mapToObj(pIndex ->
                 bucketSheet.subTexture(new Rectangle2D(pIndex * bucketSheet.getHeight(), 0,
                         bucketSheet.getHeight(), bucketSheet.getHeight()))).peek(pTex -> {
-                            pTex.setFitWidth(BUTTON_WIDTH);
-                            pTex.setFitHeight(BUTTON_WIDTH);
+                            pTex.setFitWidth(BUCKET_WIDTH);
+                            pTex.setFitHeight(BUCKET_WIDTH);
                             pTex.setSmooth(false);
                         }).collect(Collectors.toList());
 
@@ -70,7 +70,7 @@ public class RefuelTask extends ATask {
 
     @Override
     protected Point2D generateViewLocation() {
-        return LocationUtils.genRandomLocation(BUTTON_WIDTH);
+        return LocationUtils.genRandomLocation(BUCKET_WIDTH);
     }
 
     @Override

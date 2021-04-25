@@ -23,6 +23,7 @@ public class GameApp extends GameApplication {
         pSettings.setTitle("Dig Inc.");
         pSettings.setVersion("");
         pSettings.getCSSList().add("styles.css");
+        pSettings.setAppIcon("window-icon.png");
     }
 
     @Override

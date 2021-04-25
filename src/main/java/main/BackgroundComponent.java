@@ -14,10 +14,11 @@ import javafx.util.Duration;
 
 public class BackgroundComponent extends Component {
 
-    private static final double DRILL_ANIMATION_SPEED = 0.4;
+    private static final double DRILL_ANIMATION_SPEED = 0.75;
     private static final double BACKGROUND_SCROLL_SPEED = 100.0;
     private static final double MAX_SHAKE_RADIUS = 10.0;
     private static final double SHAKE_SPEED = 30.0;
+    private static final double BACKGROUND_HEIGHT_TO_WIDTH = 2.0;
 
     private final ReadOnlyBooleanProperty mBackgroundMoving =
             FXGL.getWorldProperties().booleanProperty(Names.BACKGROUND_MOVING);
@@ -54,7 +55,7 @@ public class BackgroundComponent extends Component {
         spawnBackgroundEntity(0.0);
 
         // Drill animation
-        AnimationChannel animChannel = new AnimationChannel(FXGL.image("drill.png"), 4, 10, 40,
+        AnimationChannel animChannel = new AnimationChannel(FXGL.image("drill.png"), 4, 94, 376,
                 Duration.seconds(DRILL_ANIMATION_SPEED), 0, 3);
         AnimatedTexture texture = new AnimatedTexture(animChannel).loop();
         texture.setFitWidth(Constants.DRILL_WIDTH);
@@ -88,7 +89,7 @@ public class BackgroundComponent extends Component {
         Texture backgroundTexture = FXGL.texture(mTexturePath);
         final double adjustedWidth = 600.0 + MAX_SHAKE_RADIUS * 2.0;
         backgroundTexture.setFitWidth(adjustedWidth);
-        backgroundTexture.setFitHeight(4 * adjustedWidth);
+        backgroundTexture.setFitHeight(BACKGROUND_HEIGHT_TO_WIDTH * adjustedWidth);
         backgroundTexture.setSmooth(false);
         FXGL.entityBuilder()
                 .at(new Point2D(-MAX_SHAKE_RADIUS, pY))
@@ -101,12 +102,12 @@ public class BackgroundComponent extends Component {
                         if (mBackgroundMoving.get()) {
                             getEntity().translateY(-BACKGROUND_SCROLL_SPEED * tpf);
 
-                            if (!mSpawnedNew && getEntity().getY() < -2.5 * adjustedWidth) {
+                            if (!mSpawnedNew && getEntity().getY() < -0.5 * adjustedWidth) {
                                 // Apply slight y offset to account for slip ups
-                                spawnBackgroundEntity(getEntity().getY() + adjustedWidth * 4.0 - 25.0);
+                                spawnBackgroundEntity(getEntity().getY() + adjustedWidth * BACKGROUND_HEIGHT_TO_WIDTH - 25.0);
                                 mSpawnedNew = true;
                             }
-                            if (getEntity().getY() < -4.0 * adjustedWidth) {
+                            if (getEntity().getY() < -BACKGROUND_HEIGHT_TO_WIDTH * adjustedWidth) {
                                 getEntity().removeFromWorld();
                             }
                         }

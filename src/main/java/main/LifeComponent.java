@@ -9,6 +9,8 @@ import levels.GameOverMenu;
 
 public class LifeComponent extends Component {
 
+    private static final double MIN_DAMAGE_OPACITY = 0.4;
+
     private final ReadOnlyIntegerProperty mCounter = FXGL.getWorldProperties().intProperty(Names.LIFE_COUNT);
 
     @Override
@@ -33,7 +35,14 @@ public class LifeComponent extends Component {
                 // TODO: play damage sound effect
             }
 
-            texture.setOpacity(1.0 - (double)clampedLife / Constants.MAX_LIVES);
+            double opacity;
+            if (clampedLife >= Constants.MAX_LIVES) {
+                opacity = 0.0;
+            } else {
+                opacity = (1.0 - (double)clampedLife / Constants.MAX_LIVES)
+                        * (1.0 - MIN_DAMAGE_OPACITY) + MIN_DAMAGE_OPACITY;
+            }
+            texture.setOpacity(opacity);
             if (clampedLife <= 0) {
                 gameOver();
             }

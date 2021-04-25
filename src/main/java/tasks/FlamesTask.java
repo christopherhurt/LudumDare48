@@ -23,6 +23,7 @@ import main.EDifficulty;
 
 public class FlamesTask extends ATask {
 
+    private static final double X_PAD = 10.0;
     private static final double Y_PAD = 100.0;
     private static final double SIZE = 20.0;
     private static final int COUNT = 5;
@@ -50,7 +51,7 @@ public class FlamesTask extends ATask {
 
         VBox box = new VBox(5.0);
 
-        AnimationChannel animChannel = new AnimationChannel(FXGL.image("flames.png"), 4, 16, 16, // TODO: change these with tex size increase
+        AnimationChannel animChannel = new AnimationChannel(FXGL.image("flames.png"), 4, 20, 20,
                 Duration.seconds(ANIM_TIME), 0, 3);
         AnimatedTexture texture = new AnimatedTexture(animChannel).loop();
         texture.setFitWidth(SIZE);
@@ -85,8 +86,8 @@ public class FlamesTask extends ATask {
     @Override
     protected Point2D generateViewLocation() {
         // Generate a location somewhere on the drill
-        double minX = 300.0 - Constants.DRILL_WIDTH / 2.0 - SIZE * 0.5; // Account for VBox width
-        double maxX = 300.0 + Constants.DRILL_WIDTH / 2.0 - SIZE * 1.5; // Account for VBox width
+        double minX = 300.0 - Constants.DRILL_WIDTH / 2.0 - SIZE * 0.5 + X_PAD; // Account for VBox width
+        double maxX = 300.0 + Constants.DRILL_WIDTH / 2.0 - SIZE * 1.5 - X_PAD; // Account for VBox width
         double maxY = Constants.DRILL_HEIGHT - Y_PAD;
         return new Point2D(FXGL.random(minX, maxX), FXGL.random(Y_PAD / 2.0, maxY));
     }

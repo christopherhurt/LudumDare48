@@ -5,6 +5,7 @@ import main.BackgroundComponent;
 import main.EDifficulty;
 import main.LevelTransitionComponent;
 import main.LifeComponent;
+import main.Names;
 import main.TaskManagerComponent;
 
 public class GameplayLevel extends ALevel {
@@ -24,8 +25,9 @@ public class GameplayLevel extends ALevel {
         }
 
         // Task spawner, life manager
-        FXGL.entityBuilder().with(new TaskManagerComponent(mDifficulty, 0),
-                new LifeComponent(), new BackgroundComponent(0), new LevelTransitionComponent(mDifficulty))
+        int levelIndex = FXGL.getWorldProperties().getInt(Names.LEVEL_INDEX);
+        FXGL.entityBuilder().with(new TaskManagerComponent(mDifficulty, levelIndex),
+                new LifeComponent(), new BackgroundComponent(levelIndex), new LevelTransitionComponent(mDifficulty))
                 .buildAndAttach();
     }
 
