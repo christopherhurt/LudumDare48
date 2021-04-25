@@ -21,12 +21,14 @@ import tasks.ReplaceBitTask;
 
 public final class TaskManagerComponent extends Component {
 
-    private static final double INITIAL_DELAY = 5.0;
+    private static final double INITIAL_DELAY = 3.0;
     private static final double MIN_SPAWN_DELAY = 3.0;
     private static final double MAX_SPAWN_DELAY = 5.0;
     private static final int MAX_CONCURRENT_TASKS = 3;
+    private static final double PER_LEVEL_TASK_RATE_DECREASE = 0.25;
 
     private final EDifficulty mDifficulty;
+    private final int mLevelIndex;
     private final Map<TaskName, ATask> mCurrentTasks = new ConcurrentHashMap<>();
     private final Consumer<ATask> mTaskRemovalTask = pTask -> {
         mCurrentTasks.values().remove(pTask);
@@ -36,8 +38,9 @@ public final class TaskManagerComponent extends Component {
     private TimerAction mSpawnAction = null;
     private boolean mSpawnable = false;
 
-    public TaskManagerComponent(EDifficulty pDifficulty) { // TODO: change spawns with level index!!
+    public TaskManagerComponent(EDifficulty pDifficulty, int pLevelIndex) {
         mDifficulty = pDifficulty;
+        mLevelIndex = pLevelIndex;
     }
 
     @Override
@@ -64,7 +67,8 @@ public final class TaskManagerComponent extends Component {
     private void startSpawnTimer() {
         mSpawnable = false;
         double time = mDifficulty.getTaskRateMultiplier()
-                * (Math.random() * (MAX_SPAWN_DELAY - MIN_SPAWN_DELAY) + MIN_SPAWN_DELAY);
+                * (Math.random() * (MAX_SPAWN_DELAY - MIN_SPAWN_DELAY) + MIN_SPAWN_DELAY)
+                - PER_LEVEL_TASK_RATE_DECREASE * mLevelIndex;
         mSpawnAction = FXGL.runOnce(() -> mSpawnable = true, Duration.seconds(time));
     }
 
@@ -102,9 +106,14 @@ public final class TaskManagerComponent extends Component {
 
     @Override
     public void onRemoved() {
+        cleanup();
+    }
+
+    public void cleanup() {
         mCurrentTasks.forEach((pKey, pVal) -> pVal.destroyAndRemove());
         if (mSpawnAction != null) {
             mSpawnAction.expire();
+            mSpawnAction = null;
         }
     }
 

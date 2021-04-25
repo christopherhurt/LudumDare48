@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.geometry.Point2D;
+import levels.GameOverMenu;
 
 public class LifeComponent extends Component {
 
@@ -28,16 +29,19 @@ public class LifeComponent extends Component {
         mCounter.addListener((pObs, pOld, pNew) -> {
             int clampedLife = Math.max(Math.min(pNew.intValue(), Constants.MAX_LIVES), 0);
             int clampedOld = Math.max(Math.min(pOld.intValue(), Constants.MAX_LIVES), 0);
-            if (clampedLife < clampedOld) {
+            if (clampedLife < clampedOld && clampedLife > 0) {
                 // TODO: play damage sound effect
             }
 
             texture.setOpacity(1.0 - (double)clampedLife / Constants.MAX_LIVES);
             if (clampedLife <= 0) {
-                // TODO: game over
-                System.out.println("GAME OVER");
+                gameOver();
             }
         });
+    }
+
+    private static void gameOver() {
+        new GameOverMenu().load(true, 0);
     }
 
 }
