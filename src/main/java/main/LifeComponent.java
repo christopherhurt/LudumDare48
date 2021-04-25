@@ -32,7 +32,7 @@ public class LifeComponent extends Component {
             int clampedLife = Math.max(Math.min(pNew.intValue(), Constants.MAX_LIVES), 0);
             int clampedOld = Math.max(Math.min(pOld.intValue(), Constants.MAX_LIVES), 0);
             if (clampedLife < clampedOld && clampedLife > 0) {
-                // TODO: play damage sound effect
+                FXGL.play("damage.wav");
             }
 
             double opacity;

@@ -59,7 +59,7 @@ public class FlamesTask extends ATask {
         texture.setSmooth(false);
         texture.setPickOnBounds(true);
         texture.setOnMousePressed(pEvt -> {
-            // TODO: sizzle sound effect
+            FXGL.play("sizzle.wav");
             FXGL.removeUINode(box);
             mCount--;
             if (mCount <= 0) {
@@ -94,7 +94,6 @@ public class FlamesTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
         return 5.0;
     }
 

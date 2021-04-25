@@ -1,5 +1,6 @@
 package tasks;
 
+import com.almasb.fxgl.dsl.FXGL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -79,7 +80,6 @@ public class CommandTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
         return 10.0;
     }
 
@@ -94,7 +94,7 @@ public class CommandTask extends ATask {
     @Override
     protected void onCompleted() {
         super.onCompleted();
-        // TODO: play ding sound
+        FXGL.play("beepboop.wav");
     }
 
     @Override

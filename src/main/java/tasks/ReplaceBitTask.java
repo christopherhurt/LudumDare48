@@ -62,7 +62,6 @@ public class ReplaceBitTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
         return 3.0;
     }
 
@@ -98,7 +97,7 @@ public class ReplaceBitTask extends ATask {
                 })
                 .buildAndAttach();
 
-        // TODO: play drill sound
+        FXGL.play("drill.wav");
     }
 
     @Override

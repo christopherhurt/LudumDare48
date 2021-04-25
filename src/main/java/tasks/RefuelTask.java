@@ -47,7 +47,7 @@ public class RefuelTask extends ATask {
         button.setTextAlignment(TextAlignment.CENTER);
         button.setStyle("-fx-background-color: linear-gradient(to top right, rgb(92, 92, 92) 0%, rgb(128, 128, 128) 100%); -fx-text-fill: white; -fx-font-weight: bold;");
         button.setOnAction(pEvt -> {
-            // TODO: splash sound
+            FXGL.play("refuel.wav");
 
             mFilled++;
             if (mFilled >= NUM_FILLS) {
@@ -75,7 +75,6 @@ public class RefuelTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
         return 5.0;
     }
 

@@ -16,7 +16,7 @@ import levels.VictoryMenu;
 
 public class LevelTransitionComponent extends Component {
 
-    private static final double SURVIVAL_TIME = 60.0;
+    private static final double SURVIVAL_TIME = 70.0;
     private static final double TEXT_VISIBLE_TIME = 3.5;
     private static final double TEXT_TRANSITION_TIME = 1.0;
     private static final double TEXT_Y = 150.0;

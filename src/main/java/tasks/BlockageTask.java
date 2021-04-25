@@ -1,5 +1,6 @@
 package tasks;
 
+import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.time.TimerAction;
 import java.util.Collection;
@@ -30,6 +31,8 @@ public class BlockageTask extends ATask {
     private static final int NUM_MASHES = 15;
 
     private final EventHandler<KeyEvent> mHandler;
+    private final TimerAction mSoundTimer;
+    private Sound mSound = null;
     private MashKey mKey;
 
     private TimerAction mFlash;
@@ -50,7 +53,14 @@ public class BlockageTask extends ATask {
         FXGL.getInput().addEventHandler(KeyEvent.KEY_PRESSED, mHandler);
 
         FXGL.getWorldProperties().setValue(Names.BACKGROUND_MOVING, false);
-        // TODO: play sound on loop
+        // Play sound once first
+        mSound = FXGL.getAssetLoader().loadSound("blockage.wav");
+        FXGL.getAudioPlayer().playSound(mSound);
+        // Play sound later on timer
+        mSoundTimer = FXGL.run(() -> {
+            mSound = FXGL.getAssetLoader().loadSound("blockage.wav");
+            FXGL.getAudioPlayer().playSound(mSound);
+        }, Duration.seconds(1));
     }
 
     @Override
@@ -77,8 +87,7 @@ public class BlockageTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
-        return 5.0;
+        return 6.0;
     }
 
     @Override
@@ -97,6 +106,11 @@ public class BlockageTask extends ATask {
         if (!mResumed) {
             mResumed = true;
             FXGL.getWorldProperties().setValue(Names.BACKGROUND_MOVING, true);
+            mSoundTimer.expire();
+            if (mSound != null) {
+                FXGL.getAudioPlayer().stopSound(mSound);
+                mSound = null;
+            }
         }
     }
 

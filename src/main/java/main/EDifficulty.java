@@ -2,10 +2,9 @@ package main;
 
 public enum EDifficulty {
 
-    // TODO: adjust these vals
-    EASY(1.0, 1.0, 6),
-    MEDIUM(1.0, 1.0, 6),
-    HARD(1.0, 1.0, 6);
+    EASY(1.2, 1.1, 3),
+    MEDIUM(1.0, 1.0, 4),
+    HARD(0.8, 0.9, 5);
 
     private final double mTaskRateMultiplier;
     private final double mTaskTimeoutMultiplier;

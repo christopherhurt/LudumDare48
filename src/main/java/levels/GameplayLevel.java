@@ -1,5 +1,6 @@
 package levels;
 
+import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.dsl.FXGL;
 import main.BackgroundComponent;
 import main.EDifficulty;
@@ -21,7 +22,8 @@ public class GameplayLevel extends ALevel {
     @Override
     protected void setup() {
         if (mStartMusic) {
-            // TODO: start music playing
+            Music music = FXGL.getAssetLoader().loadMusic("LudumDare48.wav");
+            FXGL.getAudioPlayer().loopMusic(music);
         }
 
         // Task spawner, life manager

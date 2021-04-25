@@ -81,14 +81,13 @@ public class CoolantTask extends ATask {
 
     @Override
     protected double getBaseTimeout() {
-        // TODO: adjust
-        return 10.0;
+        return 5.0;
     }
 
     @Override
     protected void onCompleted() {
         super.onCompleted();
-        // TODO: sizzle sound
+        FXGL.play("sizzle.wav");
     }
 
 }
