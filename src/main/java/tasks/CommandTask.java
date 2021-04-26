@@ -27,7 +27,7 @@ public class CommandTask extends ATask {
 
     private static final String[] COMMANDS = new String[] {
             "overdrive.sh", "sudo rm -rf /", "stop_slacking", "lubricate_gears.sh",
-                "encourage_drill.sh", "push_it --to-the-limit"
+                "encourage_drill.sh", "push_it -f"
     };
 
     private String mCommand;
@@ -42,8 +42,12 @@ public class CommandTask extends ATask {
 
         Text text1 = new Text("Execute command");
         text1.setFont(INSTRUCTION_FONT);
+        text1.setPickOnBounds(false);
+        text1.setMouseTransparent(true);
         Text text2 = new Text("\"" + mCommand + "\"");
         text2.setFont(INSTRUCTION_FONT);
+        text2.setPickOnBounds(false);
+        text2.setMouseTransparent(true);
         TextField tf = new TextField();
         tf.setFocusTraversable(false);
         tf.getStyleClass().add("command-box");

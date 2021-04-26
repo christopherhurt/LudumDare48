@@ -68,6 +68,8 @@ public class BlockageTask extends ATask {
         mKey = MashKey.getRandom();
 
         Text instructionsText = new Text("Blockage reached!");
+        instructionsText.setPickOnBounds(false);
+        instructionsText.setMouseTransparent(true);
         instructionsText.setFont(FONT);
         instructionsText.setStyle(COLOR_GRADIENT);
         Text unblockText = new Text("Mash " + mKey.getName() + " to unblock");

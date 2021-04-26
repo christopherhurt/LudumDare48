@@ -32,6 +32,8 @@ public class CoolantTask extends ATask {
     @Override
     protected Collection<Node> generateViews() {
         Text coolantText = new Text("Apply Coolant");
+        coolantText.setPickOnBounds(false);
+        coolantText.setMouseTransparent(true);
         coolantText.setFont(FONT);
         Text instructionsText = new Text("(Click and rotate CW)");
         instructionsText.setFont(FONT);

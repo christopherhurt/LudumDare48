@@ -25,7 +25,7 @@ public final class TaskManagerComponent extends Component {
     private static final double MIN_SPAWN_DELAY = 3.0;
     private static final double MAX_SPAWN_DELAY = 5.0;
     private static final int MAX_CONCURRENT_TASKS = 3;
-    private static final double PER_LEVEL_TASK_RATE_DECREASE = 0.25;
+    private static final double PER_LEVEL_TASK_RATE_DECREASE = 0.2;
 
     private final EDifficulty mDifficulty;
     private final int mLevelIndex;
@@ -123,8 +123,8 @@ public final class TaskManagerComponent extends Component {
         REFUEL,
         COOLANT,
         BLOCKAGE,
-        COMMAND,
-        FLAMES
+        FLAMES,
+        COMMAND
     }
 
 }
