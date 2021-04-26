@@ -4,7 +4,7 @@ public enum EDifficulty {
 
     EASY(1.2, 1.1, 3),
     MEDIUM(1.0, 0.95, 4),
-    HARD(0.8, 0.85, 5);
+    HARD(0.75, 0.85, 5);
 
     private final double mTaskRateMultiplier;
     private final double mTaskTimeoutMultiplier;
